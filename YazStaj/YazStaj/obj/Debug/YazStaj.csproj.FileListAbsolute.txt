@@ -28,3 +28,13 @@ C:\Users\emreu\Desktop\YazStaj\YazStaj\obj\Debug\YazStaj.csproj.GenerateResource
 C:\Users\emreu\Desktop\YazStaj\YazStaj\obj\Debug\YazStaj.csproj.CoreCompileInputs.cache
 C:\Users\emreu\Desktop\YazStaj\YazStaj\obj\Debug\YazStaj.exe
 C:\Users\emreu\Desktop\YazStaj\YazStaj\obj\Debug\YazStaj.pdb
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\bin\Debug\YazStaj.exe.config
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\bin\Debug\YazStaj.exe
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\bin\Debug\YazStaj.pdb
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\obj\Debug\YazStaj.csprojAssemblyReference.cache
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\obj\Debug\YazStaj.Form1.resources
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\obj\Debug\YazStaj.Properties.Resources.resources
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\obj\Debug\YazStaj.csproj.GenerateResource.cache
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\obj\Debug\YazStaj.csproj.CoreCompileInputs.cache
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\obj\Debug\YazStaj.exe
+C:\Users\TULPAR\Documents\GitHub\OlcumCihazlari_ArayuzUygulamasi\YazStaj\YazStaj\obj\Debug\YazStaj.pdb

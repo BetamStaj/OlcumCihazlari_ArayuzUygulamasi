@@ -27,19 +27,22 @@ namespace YazStaj
         private static long maks = 30, mini = 5, i=0;
         private Random rnd = new Random();
         private static Color randomColor;
-
-
+        private static string measType;
+        private static bool isTimeSetted = false;
+        private static bool isMeasurementTypeDefined = false;
+        private static int timevalue = 0;
         public Form1()
         {
             
             InitializeComponent();
             labelAppName.Font = new Font(labelAppName.Font.FontFamily, 13);
             buttonSaveData.Enabled = false;
+            buttonDisconnect.Enabled = false;
             string[] ports = SerialPort.GetPortNames();
-            comboBox1.Items.AddRange(ports);
-            comboBox1.Items.AddRange(new string[] { "simple", "continuous", "perfect", "perfect continuous" });
-            comboBox2.Items.AddRange(new string[] { "DCV", "ACV", "DCI", "ACI", "R" });
-         
+            comboBoxDevice.Items.AddRange(ports);
+            comboBoxDevice.Items.AddRange(new string[] { "COM1", "COM2", "COM3", "COM4" });
+            comboBoxMeasurementType.Items.AddRange(new string[] { "DCV", "ACV", "DCI", "ACI", "R" });
+            chart1.Series.Clear();
 
         }
 
@@ -121,7 +124,7 @@ namespace YazStaj
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonSaveData_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "Text File | *.txt";
@@ -136,107 +139,145 @@ namespace YazStaj
             
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonConnect_Click(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedItem != null)
+            if(comboBoxDevice.SelectedItem != null)
             {
                 buttonSaveData.Enabled = true;
-
+                buttonDisconnect.Enabled = true;
+                MessageBox.Show("Connected Successfully!", "Connected",
+    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Some text", "Some title",
-    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You need to choose a Port!", "Connect Warning",
+    MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonSetInterval_Click(object sender, EventArgs e)
         {
-            if(textBox1.TextLength!=0)
+            try
             {
-                textBoxNumber = int.Parse(textBox1.Text);
-                timer1.Interval = textBoxNumber;
+                if (textBoxSetTimeInterval.TextLength != 0)
+                {
+                    isTimeSetted = true;
+                    textBoxNumber = int.Parse(textBoxSetTimeInterval.Text);
+                    timer1.Interval = textBoxNumber;
+                    MessageBox.Show("Time interval is setted to " + textBoxNumber, "Time Interval Setted",
+       MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    isTimeSetted = false;
+                    MessageBox.Show("You didn't set an interval!", "Set Interval Warning",
+        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Some text", "Some title",
-    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("You must enter a number.", "Type Error",
+       MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
-
-            //aTimer = new System.Timers.Timer();
-           // aTimer.Interval = textBoxNumber;
+            
         }
 
         private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
             
             
-            
-           // cevap += "\n"+ measurementType+" "+ textBoxNumber+" "+ a ;
-            
-            //a++;
-            
+       
 
         }
-        private  void plotsomethin()
-        {
-            //chart1.ChartAreas[0].AxisX.Minimum = mini;
-            //chart1.ChartAreas[0].AxisX.Maximum = maks;
+        
 
-            //chart1.ChartAreas[0].AxisY.Minimum = mini;
-            //chart1.ChartAreas[0].AxisY.Maximum = maks;
-            //chart1.ChartAreas[0].AxisX.ScaleView.Zoom(mini, maks);
-            //chart1.Series[0].Points.AddXY(i, a);
-            //mini++;
-            //maks++;
-            //i++;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
+        private void buttonStart_Click(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedItem != null)
+            if (isMeasurementTypeDefined && isTimeSetted)
             {
-                timer1.Start();
-                randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-                chart1.Series[0].Color = randomColor;
+               
+                measType = comboBoxMeasurementType.SelectedItem.ToString() + 1;
+                // chart1.Series.Add("Series" + sayac);
+                //chart1.Series["Series" + sayac].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+                try
+                {
+                    chart1.Series.Add(measType);
+                    chart1.Series[measType].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+
+                }
+                catch
+                {
+
+                    while (chart1.Series.IsUniqueName(measType) == false)
+                    {
+
+                        char lastElement = measType.Last();
+                        measType = measType.Remove(measType.Length - 1, 1);
+                        double newLastElement = Char.GetNumericValue(lastElement) + 1;
+                        measType = measType + newLastElement;
+
+
+
+
+
+
+                    }
+                    chart1.Series.Add(measType);
+                    chart1.Series[measType].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+
+
+                }
+               
+                    timer1.Start();
+
+                
+               
+
+                //randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                //chart1.Series[measType].Color = randomColor;
+
+
+
             }
             else
             {
-                MessageBox.Show("Some text", "Some title",
-    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+           
+                MessageBox.Show("Time inverval or measurement type is empty!", "Starting Failed",
+    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
-
-            //aTimer.Elapsed += OnTimedEvent;
-            //aTimer.Elapsed += plotsomethin;
 
 
-
-            // Have the timer fire repeated events (true is the default)
-            //aTimer.AutoReset = true;
-
-            // Start the timer
-            //aTimer.Enabled = true;
+        
         }
 
 
         private void buttonDisconnect_Click(object sender, EventArgs e)
         {
-           
+            comboBoxDevice.SelectedIndex = -1;
+            MessageBox.Show("Disconnected Successfully!", "Disconnected",
+  MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void buttonStop_Click(object sender, EventArgs e)
         {
             //aTimer.Enabled = false;
             timer1.Stop();
+            comboBoxMeasurementType.SelectedIndex = -1;
+            textBoxSetTimeInterval.Clear();
+            isMeasurementTypeDefined = false;
+            isTimeSetted = false;
+            timevalue = 0;
+
         }
 
+       
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            cevap += "\n" + measurementType + " " + textBoxNumber + " " + a;
+            timevalue += textBoxNumber;
+            cevap += "\n" + measurementType + ";" + timevalue + ";" + a;
 
             //chart1.ChartAreas[0].AxisX.Minimum = mini;
             //chart1.ChartAreas[0].AxisX.Maximum = maks;
@@ -244,19 +285,32 @@ namespace YazStaj
             //chart1.ChartAreas[0].AxisY.Minimum = mini;
             //chart1.ChartAreas[0].AxisY.Maximum = maks;
             //chart1.ChartAreas[0].AxisX.ScaleView.Zoom(mini, maks);
-            
 
-            chart1.Series[0].Points.AddXY(i, a);
+
+            chart1.Series[measType].Points.AddXY(i, a);
             a++;
             //mini++;
             //maks++;
             i++;
-           
+
+
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void buttonDefine_Click(object sender, EventArgs e)
         {
-            measurementType = comboBox2.SelectedItem.ToString();
+            if (comboBoxMeasurementType.SelectedItem != null)
+            {
+                isMeasurementTypeDefined = true;
+                measurementType = comboBoxMeasurementType.SelectedItem.ToString();
+                MessageBox.Show("The measurement type was defined as "+ measurementType, "Measurement Type Warning",
+  MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                isMeasurementTypeDefined = false;
+                MessageBox.Show("You need to choose a measurement type", "Measurement Type Warning",
+   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
         }
     }

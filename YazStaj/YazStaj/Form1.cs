@@ -43,7 +43,8 @@ namespace YazStaj
             comboBoxDevice.Items.AddRange(new string[] { "COM1", "COM2", "COM3", "COM4" });
             comboBoxMeasurementType.Items.AddRange(new string[] { "DCV", "ACV", "DCI", "ACI", "R" });
             chart1.Series.Clear();
-
+            comboBoxDevice.BackColor = Color.FromArgb(11, 29, 36);
+            comboBoxMeasurementType.BackColor = Color.FromArgb(11, 29, 36);
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)

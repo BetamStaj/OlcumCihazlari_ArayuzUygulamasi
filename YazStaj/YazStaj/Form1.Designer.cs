@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.labelAppName = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -118,7 +118,8 @@
             // 
             // comboBoxDevice
             // 
-            this.comboBoxDevice.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.comboBoxDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxDevice.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.comboBoxDevice.FormattingEnabled = true;
             this.comboBoxDevice.Location = new System.Drawing.Point(169, 65);
             this.comboBoxDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -129,17 +130,24 @@
             // 
             // buttonSaveData
             // 
+            this.buttonSaveData.BackColor = System.Drawing.Color.Transparent;
+            this.buttonSaveData.FlatAppearance.BorderSize = 2;
+            this.buttonSaveData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSaveData.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonSaveData.Location = new System.Drawing.Point(19, 138);
             this.buttonSaveData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonSaveData.Name = "buttonSaveData";
             this.buttonSaveData.Size = new System.Drawing.Size(133, 31);
             this.buttonSaveData.TabIndex = 10;
             this.buttonSaveData.Text = "Save Data";
-            this.buttonSaveData.UseVisualStyleBackColor = true;
+            this.buttonSaveData.UseVisualStyleBackColor = false;
             this.buttonSaveData.Click += new System.EventHandler(this.buttonSaveData_Click);
             // 
             // buttonConnect
             // 
+            this.buttonConnect.FlatAppearance.BorderSize = 2;
+            this.buttonConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonConnect.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonConnect.Location = new System.Drawing.Point(156, 103);
             this.buttonConnect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonConnect.Name = "buttonConnect";
@@ -170,6 +178,9 @@
             // 
             // buttonSetInterval
             // 
+            this.buttonSetInterval.FlatAppearance.BorderSize = 2;
+            this.buttonSetInterval.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSetInterval.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonSetInterval.Location = new System.Drawing.Point(167, 274);
             this.buttonSetInterval.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonSetInterval.Name = "buttonSetInterval";
@@ -181,6 +192,9 @@
             // 
             // buttonStart
             // 
+            this.buttonStart.FlatAppearance.BorderSize = 2;
+            this.buttonStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonStart.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonStart.Location = new System.Drawing.Point(225, 373);
             this.buttonStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonStart.Name = "buttonStart";
@@ -192,6 +206,9 @@
             // 
             // buttonStop
             // 
+            this.buttonStop.FlatAppearance.BorderSize = 2;
+            this.buttonStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonStop.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonStop.Location = new System.Drawing.Point(225, 431);
             this.buttonStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonStop.Name = "buttonStop";
@@ -203,6 +220,8 @@
             // 
             // comboBoxMeasurementType
             // 
+            this.comboBoxMeasurementType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxMeasurementType.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.comboBoxMeasurementType.FormattingEnabled = true;
             this.comboBoxMeasurementType.Location = new System.Drawing.Point(169, 225);
             this.comboBoxMeasurementType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -223,6 +242,9 @@
             // 
             // buttonDefine
             // 
+            this.buttonDefine.FlatAppearance.BorderSize = 2;
+            this.buttonDefine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonDefine.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonDefine.Location = new System.Drawing.Point(19, 223);
             this.buttonDefine.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonDefine.Name = "buttonDefine";
@@ -237,19 +259,19 @@
             this.chart1.BackColor = System.Drawing.Color.Transparent;
             this.chart1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.chart1.BorderlineColor = System.Drawing.Color.Transparent;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea7.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea7);
+            legend7.Name = "Legend1";
+            this.chart1.Legends.Add(legend7);
             this.chart1.Location = new System.Drawing.Point(305, 68);
             this.chart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Legend = "Legend1";
-            series2.MarkerColor = System.Drawing.Color.DeepSkyBlue;
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series7.Legend = "Legend1";
+            series7.MarkerColor = System.Drawing.Color.DeepSkyBlue;
+            series7.Name = "Series1";
+            this.chart1.Series.Add(series7);
             this.chart1.Size = new System.Drawing.Size(620, 386);
             this.chart1.TabIndex = 20;
             this.chart1.Text = "chart1";
@@ -261,7 +283,9 @@
             // buttonDisconnect
             // 
             this.buttonDisconnect.BackColor = System.Drawing.Color.Transparent;
-            this.buttonDisconnect.FlatAppearance.BorderSize = 5;
+            this.buttonDisconnect.FlatAppearance.BorderSize = 2;
+            this.buttonDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonDisconnect.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonDisconnect.Location = new System.Drawing.Point(19, 103);
             this.buttonDisconnect.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDisconnect.Name = "buttonDisconnect";

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO.Ports;
+using Cursor = System.Windows.Forms.Cursor;
+
 namespace YazStaj
 {
     public partial class Form1 : Form
@@ -25,24 +27,19 @@ namespace YazStaj
         private static long maks = 30, mini = 5, i=0;
         private Random rnd = new Random();
         private static Color randomColor;
+
+
         public Form1()
         {
             
             InitializeComponent();
-            this.BackColor = Color.FromArgb(49, 51, 50); // this should be pink-ish
-            label1.ForeColor = Color.FromArgb(230, 219, 87);
-            label1.Font = new Font(label1.Font.FontFamily, 13);
-            button1.Enabled = false;
+            labelAppName.Font = new Font(labelAppName.Font.FontFamily, 13);
+            buttonSaveData.Enabled = false;
             string[] ports = SerialPort.GetPortNames();
             comboBox1.Items.AddRange(ports);
             comboBox1.Items.AddRange(new string[] { "simple", "continuous", "perfect", "perfect continuous" });
             comboBox2.Items.AddRange(new string[] { "DCV", "ACV", "DCI", "ACI", "R" });
-            
-
-
-
-
-
+         
 
         }
 
@@ -143,7 +140,7 @@ namespace YazStaj
         {
             if(comboBox1.SelectedItem != null)
             {
-                button1.Enabled = true;
+                buttonSaveData.Enabled = true;
 
             }
             else
@@ -224,16 +221,18 @@ namespace YazStaj
             //aTimer.Enabled = true;
         }
 
+
+        private void buttonDisconnect_Click(object sender, EventArgs e)
+        {
+           
+        }
+
         private void button5_Click(object sender, EventArgs e)
         {
             //aTimer.Enabled = false;
             timer1.Stop();
         }
 
-        private void chart1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {

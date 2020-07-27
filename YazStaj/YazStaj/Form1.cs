@@ -91,21 +91,7 @@ namespace YazStaj
             movement = false;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Maximized;
-            
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        
 
         private void Form1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -151,7 +137,7 @@ namespace YazStaj
             }
             else
             {
-                MessageBox.Show("You need to choose a Port!", "Connect Warning",
+                MessageBox.Show("A port should be chosen!", "Connect Warning",
     MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
@@ -172,26 +158,20 @@ namespace YazStaj
                 else
                 {
                     isTimeSetted = false;
-                    MessageBox.Show("You didn't set an interval!", "Set Interval Warning",
+                    MessageBox.Show("No Interval has been written yet!", "Set Interval Warning",
         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch
             {
-                MessageBox.Show("You must enter a number.", "Type Error",
+                MessageBox.Show("A number must be entered.", "Type Error",
        MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
             
         }
 
-        private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
-        {
-            
-            
-       
-
-        }
+        
         
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -200,8 +180,7 @@ namespace YazStaj
             {
                
                 measType = comboBoxMeasurementType.SelectedItem.ToString() + 1;
-                // chart1.Series.Add("Series" + sayac);
-                //chart1.Series["Series" + sayac].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+               
                 try
                 {
                     chart1.Series.Add(measType);
@@ -263,7 +242,6 @@ namespace YazStaj
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            //aTimer.Enabled = false;
             timer1.Stop();
             comboBoxMeasurementType.SelectedIndex = -1;
             textBoxSetTimeInterval.Clear();
@@ -273,7 +251,15 @@ namespace YazStaj
 
         }
 
-       
+        private void buttonMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -309,7 +295,7 @@ namespace YazStaj
             else
             {
                 isMeasurementTypeDefined = false;
-                MessageBox.Show("You need to choose a measurement type", "Measurement Type Warning",
+                MessageBox.Show("Measurement type should be chosen.", "Measurement Type Warning",
    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 

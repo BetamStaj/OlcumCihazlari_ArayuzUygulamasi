@@ -31,6 +31,7 @@ namespace YazStaj
         private static bool isTimeSetted = false;
         private static bool isMeasurementTypeDefined = false;
         private static int timevalue = 0;
+        private static bool screenClean = true;
         public Form1()
         {
             
@@ -42,15 +43,30 @@ namespace YazStaj
             comboBoxDevice.Items.AddRange(ports);
             comboBoxDevice.Items.AddRange(new string[] { "COM1", "COM2", "COM3", "COM4" });
             comboBoxMeasurementType.Items.AddRange(new string[] { "DCV", "ACV", "DCI", "ACI", "R" });
-            chart1.Series.Clear();
-            comboBoxDevice.BackColor = Color.FromArgb(11, 29, 36);
-            comboBoxMeasurementType.BackColor = Color.FromArgb(11, 29, 36);
+            comboBoxDevice.BackColor = Color.FromArgb(41, 53, 65);
+            comboBoxMeasurementType.BackColor = Color.FromArgb(41, 53, 65);
+            chart1.ChartAreas[0].BackColor = Color.FromArgb(41, 53, 65);
+            chart1.ChartAreas[0].AxisX.MajorGrid.LineWidth = 0;
+            chart1.ChartAreas[0].AxisY.MajorGrid.LineWidth = 0;
+            chart1.ChartAreas[0].AxisX.LineColor = Color.FromArgb(226, 227, 229);
+            chart1.ChartAreas[0].AxisY.LineColor = Color.FromArgb(226, 227, 229);
+            chart1.ChartAreas[0].AxisX.InterlacedColor = Color.FromArgb(226, 227, 229);
+            
+            for (int i = 0; i < 4; i++)
+            {
+                chart1.Series["D1"].Points.AddXY(rnd.Next(100), rnd.Next(100));
+                chart1.Series["D2"].Points.AddXY(rnd.Next(100), rnd.Next(100));
+                chart1.Series["D3"].Points.AddXY(rnd.Next(100), rnd.Next(100));
+                chart1.Series["D4"].Points.AddXY(rnd.Next(100), rnd.Next(100));
+                chart1.Series["D5"].Points.AddXY(rnd.Next(100), rnd.Next(100));
+                chart1.Series["D6"].Points.AddXY(rnd.Next(100), rnd.Next(100));
+            }
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             Graphics line = e.Graphics;
-            Pen p = new Pen(Color.White, 1);
+            Pen p = new Pen(Color.FromArgb(151, 207, 235), 1);
             line.DrawLine(p, 0, 30, this.Size.Width,30);
            
         }
@@ -178,6 +194,11 @@ namespace YazStaj
         {
             if (isMeasurementTypeDefined && isTimeSetted)
             {
+                if (screenClean)
+                {
+                    chart1.Series.Clear();
+                    screenClean = false;
+                }
                
                 measType = comboBoxMeasurementType.SelectedItem.ToString() + 1;
                
@@ -259,6 +280,25 @@ namespace YazStaj
         private void buttonExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void textBoxSetTimeInterval_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBoxSetTimeInterval.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Please enter only numbers.");
+                textBoxSetTimeInterval.Text = textBoxSetTimeInterval.Text.Remove(textBoxSetTimeInterval.Text.Length - 1);
+            }
+        }
+
+        private void buttonMinimize_MouseHover(object sender, EventArgs e)
+        {
+            buttonMinimize.Image = Properties.Resources.rsz_minimizeback;
+        }
+
+        private void buttonExit_MouseLeave(object sender, EventArgs e)
+        {
+            buttonMinimize.Image = Properties.Resources.rsz_minimizebackmat;
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -32,6 +32,7 @@ namespace YazStaj
         private static bool isMeasurementTypeDefined = false;
         private static int timevalue = 0;
         private static bool screenClean = true;
+        private static bool connected = false;
         public Form1()
         {
             
@@ -148,6 +149,7 @@ namespace YazStaj
             {
                 buttonSaveData.Enabled = true;
                 buttonDisconnect.Enabled = true;
+                connected = true;
                 MessageBox.Show("Connected Successfully!", "Connected",
     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -155,7 +157,7 @@ namespace YazStaj
             {
                 MessageBox.Show("A port should be chosen!", "Connect Warning",
     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                connected = false;
             }
         }
 
@@ -191,7 +193,8 @@ namespace YazStaj
         
 
         private void buttonStart_Click(object sender, EventArgs e)
-        {
+        { if (connected) {
+               
             if (isMeasurementTypeDefined && isTimeSetted)
             {
                 if (screenClean)
@@ -233,30 +236,43 @@ namespace YazStaj
                
                     timer1.Start();
 
-                
-               
-
-                //randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-                //chart1.Series[measType].Color = randomColor;
+                    //   serialPort1.PortName = comboBoxDevice.SelectedItem.ToString();
+                    //  serialPort1.Open();
+                    //  serialPort1.ReadTimeout = timer1.Interval;
 
 
 
-            }
+                    
+
+
+
+                    //randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                    //chart1.Series[measType].Color = randomColor;
+
+                   
+
+                }
             else
             {
-           
+                    
                 MessageBox.Show("Time inverval or measurement type is empty!", "Starting Failed",
     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            }
+            else
+            {
+                connected = false;
+                MessageBox.Show("Not yet connected!", "Starting Failed",
+MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
-
-        
         }
 
 
         private void buttonDisconnect_Click(object sender, EventArgs e)
         {
             comboBoxDevice.SelectedIndex = -1;
+            connected = false;
             MessageBox.Show("Disconnected Successfully!", "Disconnected",
   MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -304,21 +320,21 @@ namespace YazStaj
         private void timer1_Tick(object sender, EventArgs e)
         {
             timevalue += textBoxNumber;
-            cevap += "\n" + measurementType + ";" + timevalue + ";" + a;
+                if (connected)
+            {
+                //string deger = serialPort1.ReadLine();
 
-            //chart1.ChartAreas[0].AxisX.Minimum = mini;
-            //chart1.ChartAreas[0].AxisX.Maximum = maks;
-
-            //chart1.ChartAreas[0].AxisY.Minimum = mini;
-            //chart1.ChartAreas[0].AxisY.Maximum = maks;
-            //chart1.ChartAreas[0].AxisX.ScaleView.Zoom(mini, maks);
+                cevap += "\n" + measurementType + ";" + timevalue + ";" + a;
 
 
-            chart1.Series[measType].Points.AddXY(i, a);
-            a++;
-            //mini++;
-            //maks++;
-            i++;
+                chart1.Series[measType].Points.AddXY(i, a);
+                a++;
+                //chart1.Series[measType].Points.AddXY(i, deger);
+                i++;
+
+            }
+
+
 
 
         }

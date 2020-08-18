@@ -33,6 +33,7 @@ namespace YazStaj
         private static int timevalue = 0;
         private static bool screenClean = true;
         private static bool connected = false;
+        private SerialPort ComPort;
         public Form1()
         {
             
@@ -42,7 +43,7 @@ namespace YazStaj
             buttonDisconnect.Enabled = false;
             string[] ports = SerialPort.GetPortNames();
             comboBoxDevice.Items.AddRange(ports);
-            comboBoxDevice.Items.AddRange(new string[] { "COM1", "COM2", "COM3", "COM4" });
+           
             comboBoxMeasurementType.Items.AddRange(new string[] { "DCV", "ACV", "DCI", "ACI", "R" });
             comboBoxDevice.BackColor = Color.FromArgb(41, 53, 65);
             comboBoxMeasurementType.BackColor = Color.FromArgb(41, 53, 65);
@@ -147,9 +148,33 @@ namespace YazStaj
         {
             if(comboBoxDevice.SelectedItem != null)
             {
-                buttonSaveData.Enabled = true;
-                buttonDisconnect.Enabled = true;
-                connected = true;
+
+                ComPort = new SerialPort(comboBoxDevice.Text, 9600, Parity.None, 8, StopBits.One);
+
+                try
+                {
+                    buttonSaveData.Enabled = true;
+                    buttonDisconnect.Enabled = true;
+                    connected = true;
+                    //data gelirse eğer SerialPortDataReceived fonksiyonu çalışacak
+                    ComPort.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); ;
+
+                    //portu açıyorum
+                    ComPort.Open();
+
+                    //diğer butonlarımı aktif hale getiriyorum
+                   
+
+                }//hatalarimi kontrol ediyorum
+                catch (UnauthorizedAccessException) {    }
+                catch (System.IO.IOException) {    }
+                catch (ArgumentException) {  }
+
+                //kullaniciyi hataya karşı bilgilendiriyorum
+               
+                
+
+
                 MessageBox.Show("Connected Successfully!", "Connected",
     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -158,6 +183,36 @@ namespace YazStaj
                 MessageBox.Show("A port should be chosen!", "Connect Warning",
     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 connected = false;
+            }
+        }
+
+        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            var serialPort = (SerialPort)sender;
+
+            if (serialPort.IsOpen)
+            {
+
+                //gelen data:
+                //1#2#3#4#5#6#7#8#9#10#11#12#13#14#15#16#17#18*
+                //bu şekilde
+
+
+                var data = "";
+                int asciCode = 0;
+
+                //cihazdan gelen datayi aliyorum
+                do
+                {
+
+                    asciCode = serialPort.ReadByte();
+                    data += (char)asciCode;
+
+
+                } while ((char)asciCode != '.');
+
+                Console.WriteLine(data);
+                Console.ReadLine();
             }
         }
 
@@ -193,10 +248,17 @@ namespace YazStaj
         
 
         private void buttonStart_Click(object sender, EventArgs e)
-        { if (connected) {
+        {
+
+            Console.WriteLine("Kapi 1");
+            ComPort.Write("S");
+            if (connected) {
                
             if (isMeasurementTypeDefined && isTimeSetted)
             {
+                Console.WriteLine("DATA GELDİ?");
+                ComPort.Write("S");
+
                 if (screenClean)
                 {
                     chart1.Series.Clear();
@@ -209,6 +271,7 @@ namespace YazStaj
                 {
                     chart1.Series.Add(measType);
                     chart1.Series[measType].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+
 
                 }
                 catch

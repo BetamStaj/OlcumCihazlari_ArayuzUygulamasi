@@ -48,3 +48,13 @@ C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-osman\YazStaj\YazStaj\obj
 C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-osman\YazStaj\YazStaj\obj\Debug\YazStaj.csproj.CoreCompileInputs.cache
 C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-osman\YazStaj\YazStaj\obj\Debug\YazStaj.exe
 C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-osman\YazStaj\YazStaj\obj\Debug\YazStaj.pdb
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\bin\Debug\YazStaj.exe.config
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\bin\Debug\YazStaj.exe
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\bin\Debug\YazStaj.pdb
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\obj\Debug\YazStaj.csprojAssemblyReference.cache
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\obj\Debug\YazStaj.Form1.resources
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\obj\Debug\YazStaj.Properties.Resources.resources
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\obj\Debug\YazStaj.csproj.GenerateResource.cache
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\obj\Debug\YazStaj.csproj.CoreCompileInputs.cache
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\obj\Debug\YazStaj.exe
+C:\Users\emreu\Desktop\OlcumCihazlari_ArayuzUygulamasi-emre\YazStaj\YazStaj\obj\Debug\YazStaj.pdb

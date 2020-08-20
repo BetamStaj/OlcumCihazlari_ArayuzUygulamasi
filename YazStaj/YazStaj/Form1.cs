@@ -44,7 +44,7 @@ namespace YazStaj
             string[] ports = SerialPort.GetPortNames();
             comboBoxDevice.Items.AddRange(ports);
            
-            comboBoxMeasurementType.Items.AddRange(new string[] { "DCV", "ACV", "DCI", "ACI", "R" });
+            comboBoxMeasurementType.Items.AddRange(new string[] { "VDC", "VAC", "AAC", "ADC", "OHMS" });
             comboBoxDevice.BackColor = Color.FromArgb(41, 53, 65);
             comboBoxMeasurementType.BackColor = Color.FromArgb(41, 53, 65);
             chart1.ChartAreas[0].BackColor = Color.FromArgb(41, 53, 65);
@@ -63,6 +63,13 @@ namespace YazStaj
                 chart1.Series["D5"].Points.AddXY(rnd.Next(100), rnd.Next(100));
                 chart1.Series["D6"].Points.AddXY(rnd.Next(100), rnd.Next(100));
             }
+            /*
+            Console.WriteLine("heyyyy***");
+            decimal sayi = decimal.Parse("+0.0048E-3");
+            Console.WriteLine("sayı: "+sayi);
+            Console.WriteLine("heyyyy***");
+            */
+
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -120,7 +127,7 @@ namespace YazStaj
                 
             }
             
-            }
+        }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -148,7 +155,6 @@ namespace YazStaj
         {
             if(comboBoxDevice.SelectedItem != null)
             {
-
                 ComPort = new SerialPort(comboBoxDevice.Text, 9600, Parity.None, 8, StopBits.One);
 
                 try
@@ -157,22 +163,34 @@ namespace YazStaj
                     buttonDisconnect.Enabled = true;
                     connected = true;
                     //data gelirse eğer SerialPortDataReceived fonksiyonu çalışacak
-                    ComPort.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived); ;
+                    ComPort.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+                    
 
                     //portu açıyorum
                     ComPort.Open();
+                    Console.WriteLine("cihaza bağlandı");
 
                     //diğer butonlarımı aktif hale getiriyorum
-                   
 
-                }//hatalarimi kontrol ediyorum
-                catch (UnauthorizedAccessException) {    }
-                catch (System.IO.IOException) {    }
-                catch (ArgumentException) {  }
+
+                } //hatalarimi kontrol ediyorum
+                catch (UnauthorizedAccessException ex)
+                {
+                    Console.WriteLine("1cihaza bağlanamadı: "+ex.Message);
+
+                }
+                catch (System.IO.IOException ex)
+                {
+                    Console.WriteLine("2cihaza bağlanamadı: " + ex.Message);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine("3cihaza bağlanamadı: " + ex.Message);
+                }
 
                 //kullaniciyi hataya karşı bilgilendiriyorum
-               
-                
+
+
 
 
                 MessageBox.Show("Connected Successfully!", "Connected",
@@ -186,10 +204,12 @@ namespace YazStaj
             }
         }
 
+
+        private string dataType = "";
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var serialPort = (SerialPort)sender;
-
+            Console.WriteLine("DATA gelmek üzere<port_revived>");
             if (serialPort.IsOpen)
             {
 
@@ -201,21 +221,77 @@ namespace YazStaj
                 var data = "";
                 int asciCode = 0;
 
+                Console.WriteLine("ok yaydaN ÇIKTI!!!!!<port_revived>");
                 //cihazdan gelen datayi aliyorum
-                do
-                {
 
+               
+                for (int i = 0;i<50;i++)
+                {
                     asciCode = serialPort.ReadByte();
                     data += (char)asciCode;
+                }
+
+                data = data.Trim();
+
+                if (data.Contains("OHM"))
+                {
+
+                    Console.WriteLine(formatla(data,"OHM"));
+                    dataType = "OHM";
+                }
+                else if (data.Contains("VDC"))
+                {
+                    Console.WriteLine(formatla(data, "VDC"));
+                    dataType = "VDC";
 
 
-                } while ((char)asciCode != '.');
+                }
+                else if (data.Contains("VAC"))
+                {
+                    Console.WriteLine(formatla(data, "VAC"));
+                    dataType = "VAC";
 
-                Console.WriteLine(data);
-                Console.ReadLine();
+                }
+                else if (data.Contains("AAC"))
+                {
+                    Console.WriteLine(formatla(data, "AAC"));
+                    dataType = "AAC";
+
+                }
+                else if (data.Contains("ADC"))
+                {
+                    Console.WriteLine(formatla(data, "ADC"));
+                    dataType = "ADC";
+
+                }
+
+
+
+                //data = serialPort.ReadLine();
+
+
+
+                Console.WriteLine("DATA GELDİ!!!!!<port_revived>");
+                
             }
         }
 
+
+        public string formatla(string data,string tipi)
+        {
+            int baslangic = data.IndexOf(">")+1;
+            int son = data.IndexOf(tipi);
+
+            string formatliData = "";
+            for (int i = baslangic; i < son; i++)
+            {
+                formatliData += data[i];
+            }
+
+            formatliData = formatliData.Trim();
+
+            return formatliData;
+        }
         private void buttonSetInterval_Click(object sender, EventArgs e)
         {
             try
@@ -250,16 +326,16 @@ namespace YazStaj
         private void buttonStart_Click(object sender, EventArgs e)
         {
 
-            Console.WriteLine("Kapi 1");
-            ComPort.Write("S");
+            
             if (connected) {
                
             if (isMeasurementTypeDefined && isTimeSetted)
             {
-                Console.WriteLine("DATA GELDİ?");
-                ComPort.Write("S");
+                Console.WriteLine("istek atılıyor");
 
-                if (screenClean)
+                    //ComPort.Write("S");
+
+                    if (screenClean)
                 {
                     chart1.Series.Clear();
                     screenClean = false;
@@ -380,6 +456,16 @@ MessageBoxButtons.OK, MessageBoxIcon.Warning);
             buttonMinimize.Image = Properties.Resources.rsz_minimizebackmat;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cihazaDataGonder("MEAS?");
+        }
+
+        public void cihazaDataGonder(string code)
+        {
+            ComPort.Write(string.Format("{0}\r\n", code));
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             timevalue += textBoxNumber;
@@ -404,8 +490,12 @@ MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
         private void buttonDefine_Click(object sender, EventArgs e)
         {
+
             if (comboBoxMeasurementType.SelectedItem != null)
             {
+
+                cihazaDataGonder(comboBoxMeasurementType.SelectedItem.ToString());
+
                 isMeasurementTypeDefined = true;
                 measurementType = comboBoxMeasurementType.SelectedItem.ToString();
                 MessageBox.Show("The measurement type was defined as "+ measurementType, "Measurement Type Warning",

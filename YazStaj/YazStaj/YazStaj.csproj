@@ -93,5 +93,10 @@
   <ItemGroup>
     <None Include="Resources\rsz_minimizebackmat.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\exitbutton.png" />
+    <Content Include="Resources\fluke.png" />
+    <Content Include="Resources\lineBack2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

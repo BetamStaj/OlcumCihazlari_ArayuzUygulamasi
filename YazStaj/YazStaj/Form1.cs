@@ -34,6 +34,7 @@ namespace YazStaj
         private static bool screenClean = true;
         private static bool connected = false;
         private SerialPort ComPort;
+        static string netData = "";
         public Form1()
         {
             
@@ -42,6 +43,7 @@ namespace YazStaj
             buttonSaveData.Enabled = false;
             buttonDisconnect.Enabled = false;
             string[] ports = SerialPort.GetPortNames();
+
             comboBoxDevice.Items.AddRange(ports);
            
             comboBoxMeasurementType.Items.AddRange(new string[] { "VDC", "VAC", "AAC", "ADC", "OHMS" });
@@ -219,6 +221,7 @@ namespace YazStaj
 
 
                 var data = "";
+                
                 int asciCode = 0;
 
                 Console.WriteLine("ok yaydaN ÇIKTI!!!!!<port_revived>");
@@ -229,6 +232,7 @@ namespace YazStaj
                 {
                     asciCode = serialPort.ReadByte();
                     data += (char)asciCode;
+                   
                 }
 
                 data = data.Trim();
@@ -238,10 +242,12 @@ namespace YazStaj
 
                     Console.WriteLine(formatla(data,"OHM"));
                     dataType = "OHM";
+                    netData = formatla(data, "OHM");
                 }
                 else if (data.Contains("VDC"))
                 {
                     Console.WriteLine(formatla(data, "VDC"));
+                    netData = formatla(data, "VDC");
                     dataType = "VDC";
 
 
@@ -250,18 +256,21 @@ namespace YazStaj
                 {
                     Console.WriteLine(formatla(data, "VAC"));
                     dataType = "VAC";
+                    netData = formatla(data, "VAC");
 
                 }
                 else if (data.Contains("AAC"))
                 {
                     Console.WriteLine(formatla(data, "AAC"));
                     dataType = "AAC";
+                    netData = formatla(data, "AAC");
 
                 }
                 else if (data.Contains("ADC"))
                 {
                     Console.WriteLine(formatla(data, "ADC"));
                     dataType = "ADC";
+                    netData = formatla(data, "ADC");
 
                 }
 
@@ -274,6 +283,22 @@ namespace YazStaj
                 Console.WriteLine("DATA GELDİ!!!!!<port_revived>");
                 
             }
+        }
+
+        public double datacorrect(string s)
+        {
+            double a;
+            if (s.Contains('E'))
+            {
+                string[] numbers = s.Split('E');
+                a = Convert.ToDouble(double.Parse(numbers[0]) * Math.Pow(10, double.Parse(numbers[1])));
+
+            }
+            else
+            {
+                a = Convert.ToDouble(s);
+            }
+            return a;
         }
 
 
@@ -340,7 +365,7 @@ namespace YazStaj
                     chart1.Series.Clear();
                     screenClean = false;
                 }
-               
+                    buttonStart.Enabled = false;
                 measType = comboBoxMeasurementType.SelectedItem.ToString() + 1;
                
                 try
@@ -422,6 +447,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Warning);
             comboBoxMeasurementType.SelectedIndex = -1;
             textBoxSetTimeInterval.Clear();
             isMeasurementTypeDefined = false;
+            buttonStart.Enabled = true;
             isTimeSetted = false;
             timevalue = 0;
 
@@ -456,10 +482,6 @@ MessageBoxButtons.OK, MessageBoxIcon.Warning);
             buttonMinimize.Image = Properties.Resources.rsz_minimizebackmat;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            cihazaDataGonder("MEAS?");
-        }
 
         public void cihazaDataGonder(string code)
         {
@@ -473,13 +495,11 @@ MessageBoxButtons.OK, MessageBoxIcon.Warning);
             {
                 //string deger = serialPort1.ReadLine();
 
-                cevap += "\n" + measurementType + ";" + timevalue + ";" + a;
+                cevap += "\n" + measurementType + ";" + timevalue + ";" + datacorrect(netData);
 
 
-                chart1.Series[measType].Points.AddXY(i, a);
-                a++;
-                //chart1.Series[measType].Points.AddXY(i, deger);
-                i++;
+                chart1.Series[measType].Points.Add(datacorrect(netData));
+                
 
             }
 
@@ -491,22 +511,30 @@ MessageBoxButtons.OK, MessageBoxIcon.Warning);
         private void buttonDefine_Click(object sender, EventArgs e)
         {
 
-            if (comboBoxMeasurementType.SelectedItem != null)
-            {
 
-                cihazaDataGonder(comboBoxMeasurementType.SelectedItem.ToString());
-
-                isMeasurementTypeDefined = true;
-                measurementType = comboBoxMeasurementType.SelectedItem.ToString();
-                MessageBox.Show("The measurement type was defined as "+ measurementType, "Measurement Type Warning",
-  MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
+            try
             {
-                isMeasurementTypeDefined = false;
-                MessageBox.Show("Measurement type should be chosen.", "Measurement Type Warning",
-   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (comboBoxMeasurementType.SelectedItem != null)
+                {
+
+                    cihazaDataGonder(comboBoxMeasurementType.SelectedItem.ToString());
+                    isMeasurementTypeDefined = true;
+                    measurementType = comboBoxMeasurementType.SelectedItem.ToString();
+                    MessageBox.Show("The measurement type was defined as " + measurementType, "Measurement Type Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    isMeasurementTypeDefined = false;
+                    MessageBox.Show("Measurement type should be chosen.", "Measurement Type Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Device not found", "Data Receive Error: ",  MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
 
         }
     }

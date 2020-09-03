@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO.Ports;
 using Cursor = System.Windows.Forms.Cursor;
+using System.Threading;
 
 namespace YazStaj
 {
@@ -35,6 +36,7 @@ namespace YazStaj
         private static bool connected = false;
         private SerialPort ComPort;
         static string netData = "";
+       
         public Form1()
         {
             
@@ -226,16 +228,32 @@ namespace YazStaj
 
                 Console.WriteLine("ok yaydaN ÇIKTI!!!!!<port_revived>");
                 //cihazdan gelen datayi aliyorum
-
                
-                for (int i = 0;i<50;i++)
-                {
-                    asciCode = serialPort.ReadByte();
-                    data += (char)asciCode;
-                   
-                }
 
+                int intBuffer = serialPort.BytesToRead;
+                char[] buffer = new char[intBuffer];
+                Console.WriteLine("int buffer" + intBuffer);
+                string veri = "";
+
+                //Thread.Sleep(5000);
+
+                //asciCode = serialPort.Read();
+
+                serialPort.Read(buffer, 0, intBuffer);
+                
+
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    veri += buffer[i];
+             
+                    
+
+                }
+                Console.WriteLine("Buffer data " + veri);
+                Console.WriteLine("---------------------");
+                
                 data = data.Trim();
+                
 
                 if (data.Contains("OHM"))
                 {
@@ -271,34 +289,40 @@ namespace YazStaj
                     Console.WriteLine(formatla(data, "ADC"));
                     dataType = "ADC";
                     netData = formatla(data, "ADC");
-
+                    
                 }
-
 
 
                 //data = serialPort.ReadLine();
 
 
-
+               
                 Console.WriteLine("DATA GELDİ!!!!!<port_revived>");
                 
             }
         }
-
+        
         public double datacorrect(string s)
         {
-            double a;
-            if (s.Contains('E'))
+            if (s.Length!=0)
             {
-                string[] numbers = s.Split('E');
-                a = Convert.ToDouble(double.Parse(numbers[0]) * Math.Pow(10, double.Parse(numbers[1])));
+                double a;
+                if (s.Contains('E'))
+                {
+                    string[] numbers = s.Split('E');
+                    a = Convert.ToDouble(double.Parse(numbers[0]) * Math.Pow(10, double.Parse(numbers[1])));
 
-            }
-            else
-            {
-                a = Convert.ToDouble(s);
+                }
+                else
+                {
+                    a = Convert.ToDouble(s);
+                }
+
+               
             }
             return a;
+
+
         }
 
 
@@ -356,7 +380,9 @@ namespace YazStaj
                
             if (isMeasurementTypeDefined && isTimeSetted)
             {
-                Console.WriteLine("istek atılıyor");
+
+                    
+                    Console.WriteLine("istek atılıyor");
 
                     //ComPort.Write("S");
 
@@ -487,13 +513,18 @@ MessageBoxButtons.OK, MessageBoxIcon.Warning);
         {
             ComPort.Write(string.Format("{0}\r\n", code));
         }
+        public void olcumIstegi()
+        {
+            ComPort.Write(string.Format("{0}\r\n","MEAS?"));
 
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             timevalue += textBoxNumber;
                 if (connected)
             {
                 //string deger = serialPort1.ReadLine();
+                
 
                 cevap += "\n" + measurementType + ";" + timevalue + ";" + datacorrect(netData);
 
@@ -518,6 +549,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 {
 
                     cihazaDataGonder(comboBoxMeasurementType.SelectedItem.ToString());
+                    olcumIstegi();
                     isMeasurementTypeDefined = true;
                     measurementType = comboBoxMeasurementType.SelectedItem.ToString();
                     MessageBox.Show("The measurement type was defined as " + measurementType, "Measurement Type Warning",
